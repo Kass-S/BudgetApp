@@ -1,4 +1,29 @@
 body{
-    background-color: cadetblue;
+    background-image: url(../assets/aziz-acharki-tLsOA0Vlvwk-unsplash.jpg);
+    background-size: cover;
 }
 
+.body{
+    background-color: rgb(116, 222, 150);
+    margin: 20px;
+    margin-top: 100px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.basic-Btn{
+    border-radius: 10px;
+    background-color: azure;
+}
+
+.input-areas{
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.removeBtn{
+    background-color: rgb(192, 4, 4);
+    border-radius: 10px;
+    border: black solid 2px;
+}

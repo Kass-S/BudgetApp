@@ -1,3 +1,4 @@
+import { saveToStorage, getFromStorage, removeFromStorage } from "./localStorage.js";
 
 const budgetAmountInput = document.getElementById("budgetAmountInput");
 const budgetAmountBtn = document.getElementById("budgetAmountBtn");
@@ -24,33 +25,37 @@ budgetItemAddBtn.addEventListener('click', () => {
 
     let budgetSave = {budgetItemName, budgetItemAmount}
     saveToStorage(budgetSave);
+    GetBudgetItems();
+
+    budgetItemNameInput.value = '';
+    budgetItemAmountInput.value = '';
 })
 
 
+const GetBudgetItems = async () => {
+    let storedItem = getFromStorage();
 
-const saveToStorage = (item) => {
-    let itemArr = getFromStorage();
+    storedItem.map(item => {
+        console.log(item);
 
-    if(!itemArr.includes(item)){
-        itemArr.push(item);
-    }
-    localStorage.setItem('SavedItem', JSON.stringify(itemArr));
+        let p = document.createElement('p');
+        p.className = "m-5";
+        p.innerText = `${item.budgetItemName} $${item.budgetItemAmount}`;
+
+        let removeBtn = document.createElement('i');
+        removeBtn.type = 'button';
+        removeBtn.className = 'removeBtn p-2 m-2';
+        removeBtn.innerText = 'delete';
+
+        removeBtn.addEventListener('click', () => {
+            removeFromStorage(item);
+            p.remove();
+        })
+
+        p.appendChild(removeBtn);
+
+        budgetItemText.appendChild(p);
+    })
 }
 
-const getFromStorage = () => {
-    let localStorageData = localStorage.getItem('SavedItem');
-
-    if(localStorageData == null){
-        return [];
-    }
-    return JSON.parse(localStorageData);
-}
-
-const removeFromStorage = (item) => {
-    let localStorageData = getFromStorage();
-    let itemIndex = localStorageData.indexOf(item);
-
-    localStorageData.splice(itemIndex, 1);
-
-    localStorage.setItem('SavedItem', JSON.stringify(localStorageData));
-}
+GetBudgetItems();
