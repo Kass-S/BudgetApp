@@ -39,7 +39,7 @@ const GetBudgetItems = async () => {
         console.log(item);
 
         let p = document.createElement('p');
-        p.className = "m-5";
+        p.className = "m-4 ";
         p.innerText = `${item.budgetItemName} $${item.budgetItemAmount}`;
 
         let removeBtn = document.createElement('i');
