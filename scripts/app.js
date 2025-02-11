@@ -14,13 +14,6 @@ let budgetTotal = 0;
 let budgetItemName = '';
 let budgetItemAmount = 0;
 
-budgetAmountBtn.addEventListener('click', () => {
-    budgetAmount = budgetAmountInput.value;
-    budgetTotal =  budgetAmountInput.value
-    budgetAmountText.innerText = `Budget $${budgetTotal} Left: $${budgetAmount}`;
-    budgetAmountInput.value = '';
-    console.log(budgetAmount);
-}) 
 
 budgetItemAddBtn.addEventListener('click', () => {
     budgetItemName = budgetItemNameInput.value;
@@ -29,13 +22,22 @@ budgetItemAddBtn.addEventListener('click', () => {
     let budgetSave = {budgetTotal, budgetItemName, budgetItemAmount}
     saveToStorage(budgetSave);
     GetBudgetItems();
+    //the items are duplicating when I add another item
+
     budgetAmount -= budgetItemAmount;
-    budgetAmountText.innerText = `Budget $${budgetTotal} Left: $${budgetAmount}`;
+    budgetAmountText.innerText = `Budget $${budgetTotal} Left: $${budgetAmount}`; 
 
     budgetItemNameInput.value = '';
     budgetItemAmountInput.value = '';
 })
 
+budgetAmountBtn.addEventListener('click', () => {
+    budgetAmount = budgetAmountInput.value;
+    budgetTotal =  budgetAmountInput.value;
+    //when items are deleted then more are added it removes the previous amout AND the new amount
+    budgetAmountText.innerText = `Budget $${budgetTotal} Left: $${budgetAmount}`;
+    budgetAmountInput.value = '';
+}) 
 
 const GetBudgetItems = () => {
     let storedItem = getFromStorage();
@@ -68,7 +70,3 @@ const GetBudgetItems = () => {
         budgetItemText.appendChild(p);
     })
 }
-
-
-
-GetBudgetItems();
