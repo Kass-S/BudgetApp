@@ -19,24 +19,25 @@ budgetAmountBtn.addEventListener('click', () => {
     budgetTotal =  budgetAmountInput.value
     budgetAmountText.innerText = `Budget $${budgetTotal} Left: $${budgetAmount}`;
     budgetAmountInput.value = '';
+    console.log(budgetAmount);
 }) 
 
 budgetItemAddBtn.addEventListener('click', () => {
     budgetItemName = budgetItemNameInput.value;
     budgetItemAmount = budgetItemAmountInput.value;
 
-    let budgetSave = {budgetAmount, budgetItemName, budgetItemAmount}
+    let budgetSave = {budgetTotal, budgetItemName, budgetItemAmount}
     saveToStorage(budgetSave);
     GetBudgetItems();
-
-    budgetAmountText.innerText = `Budget $${budgetAmount - budgetItemAmount}`;
+    budgetAmount -= budgetItemAmount;
+    budgetAmountText.innerText = `Budget $${budgetTotal} Left: $${budgetAmount}`;
 
     budgetItemNameInput.value = '';
     budgetItemAmountInput.value = '';
 })
 
 
-const GetBudgetItems = async () => {
+const GetBudgetItems = () => {
     let storedItem = getFromStorage();
 
     storedItem.map(item => {
@@ -54,8 +55,12 @@ const GetBudgetItems = async () => {
         removeBtn.addEventListener('click', () => {
             removeFromStorage(item);
             p.remove();
-            const budgetBack = parseFloat(item.budgetItemAmount);
-            budgetAmountText.innerText = `Budget $${budgetAmount + budgetBack}`;
+            let budgetItemBack = item.budgetItemAmount;
+            
+            let budgetBack = Number(budgetItemBack.trim());
+            budgetAmount *= 1;
+
+            budgetAmountText.innerText = `Budget $${budgetTotal} Left: $${ budgetAmount + budgetBack}`;
         })
 
         p.appendChild(removeBtn);
@@ -63,5 +68,7 @@ const GetBudgetItems = async () => {
         budgetItemText.appendChild(p);
     })
 }
+
+
 
 GetBudgetItems();
