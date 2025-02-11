@@ -10,12 +10,14 @@ const budgetItemText = document.getElementById("budgetItemText");
 const budgetItemAddBtn = document.getElementById("budgetItemAddBtn");
 
 let budgetAmount = 0;
+let budgetTotal = 0;
 let budgetItemName = '';
 let budgetItemAmount = 0;
 
 budgetAmountBtn.addEventListener('click', () => {
     budgetAmount = budgetAmountInput.value;
-    budgetAmountText.innerText = `Budget $${budgetAmount}`;
+    budgetTotal =  budgetAmountInput.value
+    budgetAmountText.innerText = `Budget $${budgetTotal} Left: $${budgetAmount}`;
     budgetAmountInput.value = '';
 }) 
 
@@ -23,9 +25,11 @@ budgetItemAddBtn.addEventListener('click', () => {
     budgetItemName = budgetItemNameInput.value;
     budgetItemAmount = budgetItemAmountInput.value;
 
-    let budgetSave = {budgetItemName, budgetItemAmount}
+    let budgetSave = {budgetAmount, budgetItemName, budgetItemAmount}
     saveToStorage(budgetSave);
     GetBudgetItems();
+
+    budgetAmountText.innerText = `Budget $${budgetAmount - budgetItemAmount}`;
 
     budgetItemNameInput.value = '';
     budgetItemAmountInput.value = '';
@@ -50,6 +54,8 @@ const GetBudgetItems = async () => {
         removeBtn.addEventListener('click', () => {
             removeFromStorage(item);
             p.remove();
+            const budgetBack = parseFloat(item.budgetItemAmount);
+            budgetAmountText.innerText = `Budget $${budgetAmount + budgetBack}`;
         })
 
         p.appendChild(removeBtn);
